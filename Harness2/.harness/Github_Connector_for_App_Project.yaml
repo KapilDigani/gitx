@@ -1,0 +1,19 @@
+connector:
+  name: Github Connector for App Project
+  identifier: Github_Connector_for_App_Project
+  description:
+  orgIdentifier: KD
+  projectIdentifier: Github_App
+  type: Github
+  spec:
+    url: https://github.com/KapilDigani
+    validationRepo: test
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: KapilDigani
+          tokenRef: account.KD_GitHub_Pwd
+    executeOnDelegate: false
+    type: Account
