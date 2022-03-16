@@ -1,7 +1,7 @@
 connector:
   name: K8s
   identifier: K8s
-  description:
+  description: "Commented in Git"
   orgIdentifier: KD
   projectIdentifier: KD_QuickStart
   type: K8sCluster
