@@ -3,7 +3,7 @@ pipeline:
     identifier: Remote
     projectIdentifier: KD_Test
     orgIdentifier: default
-    tags: {}
+    tags: {Tag}
     stages:
         - stage:
               name: Deploy
