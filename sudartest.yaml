@@ -29,4 +29,21 @@ pipeline:
                       userGroups:
                         - account.ProductManagement
                     approverInputs: []
+              - step:
+                  type: ShellScript
+                  name: sudarstep
+                  identifier: sudarstep
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "hello"
+                    environmentVariables:
+                      - name: inputvar
+                        type: String
+                        value: test
+                    outputVariables: []
+                  timeout: 10m
         tags: {}
