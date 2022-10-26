@@ -47,3 +47,9 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+    - stage:
+        name: customstage
+        identifier: customstage
+        template:
+          templateRef: approvaltemplate
+          versionLabel: v1
