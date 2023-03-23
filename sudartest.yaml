@@ -92,3 +92,11 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: input_set_name2
+      type: String
+      description: ""
+      value: ""
+    - name: input_set_name3
+      type: String
+      description: ""
+      value: ""
