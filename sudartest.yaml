@@ -60,7 +60,7 @@ pipeline:
           project: TF_Test_Sudar
           outputs: []
           inputSetReferences:
-            - input_prod
+            - <+pipeline.pipeline.variables.input_set_name>
         tags: {}
     - stage:
         name: custom23
@@ -85,3 +85,8 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+  variables:
+    - name: input_set_name
+      type: String
+      description: ""
+      value: ""
