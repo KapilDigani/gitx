@@ -28,7 +28,9 @@ pipeline:
                       disallowPipelineExecutor: false
                       userGroups:
                         - account.ProductManagement
-                    approverInputs: []
+                    approverInputs:
+                      - name: testinput
+                        defaultValue: ""
               - step:
                   type: ShellScript
                   name: sudarstep
@@ -48,8 +50,13 @@ pipeline:
                   timeout: 10m
         tags: {}
     - stage:
-        name: customstage
-        identifier: customstage
-        template:
-          templateRef: approvaltemplate
-          versionLabel: v1
+        name: child
+        identifier: child
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: Approval_Pipeline
+          project: TF_Test_Sudar
+          outputs: []
+        tags: {}
