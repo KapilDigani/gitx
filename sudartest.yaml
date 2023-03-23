@@ -60,7 +60,7 @@ pipeline:
           project: TF_Test_Sudar
           outputs: []
           inputSetReferences:
-            - <+pipeline.variables.input_set_name>
+            - <+input>
             - <+pipeline.variables.input_set_name2>
             - <+pipeline.variables.input_set_name3>
         tags: {}
