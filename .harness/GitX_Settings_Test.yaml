@@ -23,7 +23,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: echo "Hello There"
+                        script: echo "Hello OAuth"
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
