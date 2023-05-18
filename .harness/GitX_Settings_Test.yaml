@@ -1,0 +1,30 @@
+pipeline:
+  name: GitX Settings Test
+  identifier: GitX_Settings_Test
+  projectIdentifier: KD_Git_Ex
+  orgIdentifier: KD
+  tags: {}
+  stages:
+    - stage:
+        name: Custom
+        identifier: Custom
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: echo
+                  identifier: echo
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Hello There"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
