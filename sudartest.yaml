@@ -144,3 +144,7 @@ pipeline:
       description: ""
       value: <+input>
   allowStageExecutions: true
+  flowControl:
+    barriers:
+      - name: testbarrier
+        identifier: testbarrier
