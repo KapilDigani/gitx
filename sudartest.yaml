@@ -5,6 +5,7 @@ pipeline:
   orgIdentifier: default
   tags:
     name: mohit
+    type: <+input>
   stages:
     - stage:
         name: approval
