@@ -132,6 +132,9 @@ pipeline:
                   retryCount: 4
                   retryIntervals:
                     - 1d
+                  onRetryFailure:
+                    action:
+                      type: Ignore
   variables:
     - name: input_set_name
       type: String
