@@ -139,6 +139,7 @@ pipeline:
     - name: input_set_name
       type: String
       description: ""
+      required: true
       value: <+input>
     - name: input_set_name2
       type: String
