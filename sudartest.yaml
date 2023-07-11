@@ -176,6 +176,11 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+    - name: required_variable
+      type: String
+      description: ""
+      required: false
+      value: <+input>
   allowStageExecutions: true
   flowControl:
     barriers:
