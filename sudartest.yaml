@@ -66,6 +66,12 @@ pipeline:
             - ""
             - ""
         tags: {}
+        variables:
+          - name: test234
+            type: String
+            description: sdfs
+            required: false
+            value: <+input>.executionInput()
     - stage:
         name: custom23
         identifier: custom23
