@@ -94,6 +94,27 @@ pipeline:
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
+              - stepGroup:
+                  name: sg1
+                  identifier: sg1
+                  steps:
+                    - step:
+                        type: ShellScript
+                        name: ShellScript_sgn
+                        identifier: ShellScript_sgn
+                        spec:
+                          shell: Bash
+                          onDelegate: true
+                          source:
+                            type: Inline
+                            spec:
+                              script: echo "hello"
+                          environmentVariables: []
+                          outputVariables:
+                            - name: hello
+                              type: String
+                              value: <+input>
+                        timeout: 10m
         tags: {}
     - stage:
         name: deploystage
