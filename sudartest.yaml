@@ -6,6 +6,7 @@ pipeline:
   tags:
     name: mohit
     type: testing
+    hello: hello
   stages:
     - stage:
         name: approval
