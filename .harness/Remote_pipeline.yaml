@@ -1,0 +1,39 @@
+pipeline:
+  name: Remote pipeline
+  identifier: Remote_pipeline
+  projectIdentifier: Rohan
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Template CD
+        identifier: Template_CD
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: CustomDeployment
+          customDeploymentRef:
+            templateRef: AWS_SAM
+            versionLabel: 0.0.1
+          service:
+            serviceRef: SAM_Function
+          execution:
+            steps:
+              - step:
+                  name: Fetch Instances
+                  identifier: fetchInstances
+                  type: FetchInstanceScript
+                  timeout: 10m
+                  spec: {}
+            rollbackSteps: []
+          environment:
+            environmentRef: L2
+            deployToAll: false
+            infrastructureDefinitions: <+input>
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
