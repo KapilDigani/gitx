@@ -1,0 +1,188 @@
+pipeline:
+  name: sudartest
+  identifier: sudartest
+  projectIdentifier: TF_Test_Sudar
+  orgIdentifier: default
+  tags:
+    name: mohit
+    type: testing
+  stages:
+    - stage:
+        name: approval
+        identifier: approval
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: approval step
+                  identifier: approval_step
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: |-
+                      Please review the following information
+                      and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - account.ProductManagement
+                    approverInputs:
+                      - name: testinput
+                        defaultValue: ""
+              - step:
+                  type: ShellScript
+                  name: sudarstep
+                  identifier: sudarstep
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "hello"
+                    environmentVariables:
+                      - name: inputvar
+                        type: String
+                        value: test
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+    - stage:
+        name: child
+        identifier: child
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: Approval_Pipeline
+          project: TF_Test_Sudar
+          outputs: []
+          inputSetReferences:
+            - ""
+            - ""
+            - ""
+        tags: {}
+        variables:
+          - name: test234
+            type: String
+            description: sdfs
+            required: false
+            value: <+input>.executionInput()
+    - stage:
+        name: custom23
+        identifier: custom23
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: var1 = "test"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+              - stepGroup:
+                  name: sg1
+                  identifier: sg1
+                  steps:
+                    - step:
+                        type: ShellScript
+                        name: ShellScript_sgn
+                        identifier: ShellScript_sgn
+                        spec:
+                          shell: Bash
+                          onDelegate: true
+                          source:
+                            type: Inline
+                            spec:
+                              script: echo "hello"
+                          environmentVariables: []
+                          outputVariables:
+                            - name: hello
+                              type: String
+                              value: <+input>
+                        timeout: 10m
+        tags: {}
+    - stage:
+        name: deploystage
+        identifier: deploystage
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: SudarService
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  timeout: <+input>
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+          environment:
+            environmentRef: account.dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: dev
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Retry
+                spec:
+                  retryCount: 4
+                  retryIntervals:
+                    - 1d
+                  onRetryFailure:
+                    action:
+                      type: Ignore
+  variables:
+    - name: input_set_name
+      type: String
+      description: ""
+      required: true
+      value: <+input>
+    - name: input_set_name2
+      type: String
+      description: ""
+      value: <+input>
+    - name: input_set_name3
+      type: String
+      description: ""
+      value: <+input>
+    - name: required_variable
+      type: String
+      description: ""
+      required: false
+      value: <+input>
+  allowStageExecutions: true
+  flowControl:
+    barriers:
+      - name: testbarrier
+        identifier: testbarrier
