@@ -3,7 +3,8 @@ pipeline:
   identifier: Remote_pipeline
   projectIdentifier: Rohan
   orgIdentifier: default
-  tags: {}
+  tags:
+    Sample: ""
   stages:
     - stage:
         name: Template CD
@@ -75,4 +76,5 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
-  description: dasdad
+  description: |
+    SampleTesting
