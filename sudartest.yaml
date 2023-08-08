@@ -93,7 +93,7 @@ pipeline:
                         script: var1 = "test"
                     environmentVariables: []
                     outputVariables: []
-                  timeout: 10m
+                  timeout: <+input>
               - stepGroup:
                   name: sg1
                   identifier: sg1
