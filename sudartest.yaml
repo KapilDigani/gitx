@@ -116,6 +116,7 @@ pipeline:
                               value: <+input>
                         timeout: 10m
         tags: {}
+        strategy: <+input>
     - stage:
         name: deploystage
         identifier: deploystage
@@ -162,6 +163,7 @@ pipeline:
                   onRetryFailure:
                     action:
                       type: Ignore
+        variables: []
   variables:
     - name: input_set_name
       type: String
