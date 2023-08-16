@@ -167,7 +167,7 @@ pipeline:
   variables:
     - name: input_set_name
       type: String
-      description: ""
+      description: Descriptive stuff
       required: true
       value: <+input>
     - name: input_set_name2
