@@ -125,7 +125,8 @@ pipeline:
         spec:
           deploymentType: Kubernetes
           service:
-            serviceRef: SudarService
+            serviceRef: <+input>
+            serviceInputs: <+input>
           execution:
             steps:
               - step:
