@@ -124,9 +124,6 @@ pipeline:
         type: Deployment
         spec:
           deploymentType: Kubernetes
-          service:
-            serviceRef: <+input>
-            serviceInputs: <+input>
           execution:
             steps:
               - step:
@@ -150,6 +147,12 @@ pipeline:
             deployToAll: false
             infrastructureDefinitions:
               - identifier: dev
+          services:
+            values:
+              - serviceRef: SudarService
+              - serviceRef: SudarService2
+            metadata:
+              parallel: false
         tags: {}
         failureStrategies:
           - onFailure:
