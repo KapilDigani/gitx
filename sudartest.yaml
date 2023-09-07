@@ -168,6 +168,12 @@ pipeline:
                     action:
                       type: Ignore
         variables: []
+    - stage:
+        name: template
+        identifier: template
+        template:
+          templateRef: approvaltemplate
+          versionLabel: v1
   variables:
     - name: input_set_name
       type: String
