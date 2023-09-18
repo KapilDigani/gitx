@@ -1,0 +1,72 @@
+inputSet:
+  name: empty input set
+  identifier: empty_input_set
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
+  pipeline:
+    identifier: sudartest
+    stages:
+      - stage:
+          identifier: child
+          type: Pipeline
+          variables:
+            - name: test234
+              type: String
+              value: <+input>.executionInput()
+      - stage:
+          identifier: custom23
+          type: Custom
+          spec:
+            execution:
+              steps:
+                - step:
+                    identifier: ShellScript_1
+                    type: ShellScript
+                    timeout: 10s
+                - stepGroup:
+                    identifier: sg1
+                    steps:
+                      - step:
+                          identifier: ShellScript_sgn
+                          type: ShellScript
+                          spec:
+                            outputVariables:
+                              - name: hello
+                                type: String
+                                value: <+input>
+      - stage:
+          identifier: deploystage
+          type: Deployment
+          spec:
+            execution:
+              steps:
+                - step:
+                    identifier: rolloutDeployment
+                    type: K8sRollingDeploy
+                    timeout: <+input>
+      - stage:
+          identifier: template
+          template:
+            templateInputs:
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: httpstep
+                        type: Http
+                        spec:
+                          inputVariables:
+                            - name: testinput
+                              type: String
+                              value: <+input>
+    variables:
+      - name: input_set_name
+        type: String
+        value: "\"\""
+      - name: input_set_name2
+        type: String
+        value: <+input>
+      - name: input_set_name3
+        type: String
+        value: <+input>
