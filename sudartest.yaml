@@ -148,9 +148,7 @@ pipeline:
             infrastructureDefinitions:
               - identifier: dev
           services:
-            values:
-              - serviceRef: SudarService
-              - serviceRef: SudarService2
+            values: <+input>
             metadata:
               parallel: false
         tags: {}
