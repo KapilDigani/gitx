@@ -142,6 +142,14 @@ pipeline:
                           - name: testinput
                             type: String
                             value: <+input>
+                  - step:
+                      identifier: ShellScript_1
+                      type: ShellScript
+                      spec:
+                        source:
+                          type: Inline
+                          spec:
+                            script: <+input>
   variables:
     - name: input_set_name
       type: String
