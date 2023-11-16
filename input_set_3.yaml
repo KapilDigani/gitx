@@ -28,7 +28,7 @@ inputSet:
                         - name: test
                           type: Number
                           value: <+input>
-                      includeInfraSelectors: <+input>
+                      includeInfraSelectors: true
       - stage:
           identifier: template
           template:
