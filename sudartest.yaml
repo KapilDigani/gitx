@@ -100,7 +100,7 @@ pipeline:
                   spec:
                     pruningEnabled: false
           environment:
-            environmentRef: account.dev
+            environmentRef: test_envi
             deployToAll: false
             infrastructureDefinitions:
               - identifier: dev
