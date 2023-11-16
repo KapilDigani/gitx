@@ -84,13 +84,19 @@ pipeline:
           execution:
             steps:
               - step:
-                  name: Rollout Deployment
-                  identifier: rolloutDeployment
-                  type: K8sRollingDeploy
-                  timeout: <+input>
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
                   spec:
-                    skipDryRun: false
-                    pruningEnabled: false
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo <+serviceVariables.ServiceVar>
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
             rollbackSteps:
               - step:
                   name: Rollback Rollout Deployment
@@ -103,11 +109,9 @@ pipeline:
             environmentRef: test_envi
             deployToAll: false
             infrastructureDefinitions:
-              - identifier: dev
-          services:
-            values: <+input>
-            metadata:
-              parallel: false
+              - identifier: vl_infra_dummy
+          service:
+            serviceRef: SudarService
         tags: {}
         failureStrategies:
           - onFailure:
