@@ -6,5 +6,5 @@ overlayInputSet:
   projectIdentifier: TF_Test_Sudar
   pipelineIdentifier: sudartest
   inputSetReferences:
-    - empty_input_set
     - input_set_3
+    - empty_input_set
