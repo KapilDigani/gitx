@@ -94,8 +94,12 @@ pipeline:
                       type: Inline
                       spec:
                         script: echo <+serviceVariables.ServiceVar>
-                    environmentVariables: []
+                    environmentVariables:
+                      - name: test
+                        type: Number
+                        value: <+input>
                     outputVariables: []
+                    includeInfraSelectors: <+input>
                   timeout: 10m
             rollbackSteps:
               - step:
