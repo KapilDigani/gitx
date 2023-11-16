@@ -99,7 +99,7 @@ pipeline:
                         type: Number
                         value: <+input>
                     outputVariables: []
-                    includeInfraSelectors: <+pipeline.name>
+                    includeInfraSelectors: <+input>
                   timeout: 10m
             rollbackSteps:
               - step:
