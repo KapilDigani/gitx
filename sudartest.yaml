@@ -114,6 +114,31 @@ pipeline:
                     action:
                       type: Ignore
     - stage:
+        name: Custom
+        identifier: Custom
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo <+pipeline.execution.stage.deploystage.pipeline.stages.deploystage.spec.serviceVariables>
+                          exit 0
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+    - stage:
         name: template
         identifier: template
         template:
@@ -140,31 +165,6 @@ pipeline:
                           type: Inline
                           spec:
                             script: <+input>
-    - stage:
-        name: Custom
-        identifier: Custom
-        description: ""
-        type: Custom
-        spec:
-          execution:
-            steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    onDelegate: true
-                    source:
-                      type: Inline
-                      spec:
-                        script: |-
-                          echo <+pipeline.execution.stage.deploystage.pipeline.stages.deploystage.spec.serviceVariables>
-                          exit 0
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
-        tags: {}
   variables:
     - name: input_set_name
       type: String
