@@ -198,7 +198,7 @@ pipeline:
       description: ""
       required: false
       value: "10"
-  allowStageExecutions: false
+  allowStageExecutions: true
   flowControl:
     barriers:
       - name: testbarrier
