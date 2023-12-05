@@ -3,7 +3,8 @@ pipeline:
   identifier: sudartest
   projectIdentifier: TF_Test_Sudar
   orgIdentifier: default
-  tags: {}
+  tags:
+    demo: keying
   stages:
     - stage:
         name: approval
