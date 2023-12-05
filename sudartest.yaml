@@ -4,7 +4,7 @@ pipeline:
   projectIdentifier: TF_Test_Sudar
   orgIdentifier: default
   tags:
-    demo: keying
+    run: testing
   stages:
     - stage:
         name: approval
