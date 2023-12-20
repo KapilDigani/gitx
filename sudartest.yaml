@@ -6,6 +6,7 @@ pipeline:
   tags:
     name: mohit
     type: prod
+    test: Ershad
   stages:
     - stage:
         name: approval
