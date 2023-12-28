@@ -229,6 +229,7 @@ pipeline:
       type: String
       description: ""
       value: <+input>
+      required: true
     - name: input_set_name3
       type: String
       description: ""
