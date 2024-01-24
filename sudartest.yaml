@@ -113,8 +113,11 @@ pipeline:
             deployToAll: false
             infrastructureDefinitions:
               - identifier: vl_infra_dummy
-          service:
-            serviceRef: SudarService
+          services:
+            values:
+              - serviceRef: SudarService
+            metadata:
+              parallel: false
         tags: {}
         failureStrategies:
           - onFailure:
@@ -246,3 +249,23 @@ pipeline:
     barriers:
       - name: testbarrier
         identifier: testbarrier
+  notificationRules:
+    - name: test
+      identifier: test
+      pipelineEvents:
+        - type: AllEvents
+        - type: PipelineStart
+        - type: PipelineEnd
+        - type: PipelineSuccess
+        - type: PipelineFailed
+        - type: StageFailed
+        - type: StageSuccess
+        - type: StageStart
+        - type: StepFailed
+      notificationMethod:
+        type: Email
+        spec:
+          userGroups: []
+          recipients:
+            - sudarshan@harness.io
+      enabled: true
