@@ -119,7 +119,12 @@ pipeline:
             deployToAll: true
             environments: <+input>
         tags: {}
-        failureStrategies: <+input>
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Abort
     - stage:
         name: Custom
         identifier: Custom
