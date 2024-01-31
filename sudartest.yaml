@@ -172,7 +172,6 @@ pipeline:
                           type: Inline
                           spec:
                             script: <+input>
-                      timeout: <+input>
     - stage:
         name: deploy2
         identifier: deploy2
@@ -182,6 +181,14 @@ pipeline:
           deploymentType: Kubernetes
           service:
             serviceRef: SudarService
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  variables:
+                    - name: ServiceVar
+                      type: String
+                      value: <+input>
           environment:
             environmentRef: test_envi
             deployToAll: false
