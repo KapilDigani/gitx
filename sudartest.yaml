@@ -108,30 +108,19 @@ pipeline:
                   timeout: 10m
                   spec:
                     pruningEnabled: false
-          environment:
-            environmentRef: test_envi
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: vl_infra_dummy
           services:
             values:
               - serviceRef: SudarService
             metadata:
               parallel: false
+          environmentGroup:
+            envGroupRef: envgroup1
+            metadata:
+              parallel: true
+            deployToAll: true
+            environments: <+input>
         tags: {}
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: Retry
-                spec:
-                  retryCount: 4
-                  retryIntervals:
-                    - 1d
-                  onRetryFailure:
-                    action:
-                      type: Ignore
+        failureStrategies: <+input>
     - stage:
         name: Custom
         identifier: Custom
