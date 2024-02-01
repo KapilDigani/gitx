@@ -225,7 +225,7 @@ pipeline:
               action:
                 type: StageRollback
   variables:
-    - name: input_set_name
+    - name: input_set_name_with_long_name_and_longer_name
       type: String
       description: Descriptive stuff
       required: true
@@ -233,8 +233,8 @@ pipeline:
     - name: input_set_name2
       type: String
       description: ""
-      value: <+input>
       required: true
+      value: <+input>
     - name: input_set_name3
       type: String
       description: ""
