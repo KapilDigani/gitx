@@ -1,0 +1,120 @@
+inputSet:
+  pipeline:
+    identifier: sudartest
+    stages:
+      - stage:
+          identifier: child
+          type: Pipeline
+          spec:
+            inputs:
+              identifier: Approval_Pipeline
+              stages:
+                - stage:
+                    identifier: customs3
+                    type: Custom
+                    spec:
+                      execution:
+                        steps:
+                          - step:
+                              identifier: ShellScript_1
+                              type: ShellScript
+                              spec:
+                                environmentVariables:
+                                  - name: input4
+                                    type: String
+                                    value: sdsd
+                              timeout: 10w
+          variables:
+            - name: test234
+              type: String
+              value: <+input>.executionInput()
+      - stage:
+          identifier: deploystage
+          type: Deployment
+          spec:
+            execution:
+              steps:
+                - step:
+                    identifier: ShellScript_1
+                    type: ShellScript
+                    spec:
+                      environmentVariables:
+                        - name: test
+                          type: Number
+                          value: sdsd
+                      includeInfraSelectors: false
+            services:
+              values:
+                - serviceRef: SudarService
+                  serviceInputs:
+                    serviceDefinition:
+                      type: Kubernetes
+                      spec:
+                        variables:
+                          - name: ServiceVar
+                            type: String
+                            value: sdsd
+            environmentGroup:
+              environments:
+                - environmentRef: test_envi
+                  deployToAll: true
+                  infrastructureDefinitions:
+                    - identifier: vl_infra_dummy
+      - stage:
+          identifier: template
+          template:
+            templateInputs:
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: httpstep
+                        type: Http
+                        spec:
+                          inputVariables:
+                            - name: testinput
+                              type: String
+                              value: sdsd
+                    - step:
+                        identifier: ShellScript_1
+                        type: ShellScript
+                        spec:
+                          source:
+                            type: Inline
+                            spec:
+                              script: echo "ehlle"
+      - stage:
+          identifier: deploy2
+          type: Deployment
+          spec:
+            service:
+              serviceInputs:
+                serviceDefinition:
+                  type: Kubernetes
+                  spec:
+                    variables:
+                      - name: ServiceVar
+                        type: String
+                        value: sdessd
+    variables:
+      - name: input_set_name_with_long_name_and_longer_name
+        type: String
+        value: sdsd
+      - name: input_set_name2
+        type: String
+        value: sdsd
+      - name: input_set_name3
+        type: String
+        value: sdsd
+  name: ISrun
+  identifier: ISrun
+  provider:
+    type: Others
+    title: Third-party Git provider
+    info: Store pipeline in a third party Git provider
+    icon: service-github
+    size: 20
+    disabled: false
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
