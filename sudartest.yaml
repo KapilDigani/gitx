@@ -238,7 +238,7 @@ pipeline:
     - name: input_set_name3
       type: String
       description: ""
-      value: <+input>
+      value: <+input>.allowedValues(aa,bb,cc,)
     - name: required_variable
       type: String
       description: ""
