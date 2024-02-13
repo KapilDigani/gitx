@@ -52,17 +52,18 @@ pipeline:
                   identifier: ShellScript_1
                   spec:
                     shell: Bash
-                    onDelegate: true
                     source:
                       type: Inline
                       spec:
                         script: |-
-                          echo <+pipeline.execution.stage.deploystage.pipeline.stages.deploystage.spec.serviceVariables>
+                          echo <+pipeline.variables.input_set_name3>
                           exit 0
                     environmentVariables: []
                     outputVariables: []
+                    executionTarget: {}
                   timeout: 10m
         tags: {}
+        delegateSelectors: <+input>
     - stage:
         name: child
         identifier: child
