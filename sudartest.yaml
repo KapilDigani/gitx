@@ -64,6 +64,9 @@ pipeline:
                   timeout: 10m
         tags: {}
         delegateSelectors: <+input>
+        when:
+          pipelineStatus: Success
+          condition: "false"
     - stage:
         name: child
         identifier: child
