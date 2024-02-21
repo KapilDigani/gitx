@@ -219,7 +219,7 @@ pipeline:
       type: String
       description: ""
       required: true
-      value: <+input>
+      value: input_preprod
     - name: input_set_name3
       type: String
       description: ""
