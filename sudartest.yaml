@@ -74,24 +74,8 @@ pipeline:
           pipeline: Approval_Pipeline
           project: TF_Test_Sudar
           outputs: []
-          inputs:
-            identifier: Approval_Pipeline
-            stages:
-              - stage:
-                  identifier: customs3
-                  type: Custom
-                  spec:
-                    execution:
-                      steps:
-                        - step:
-                            identifier: ShellScript_1
-                            type: ShellScript
-                            spec:
-                              environmentVariables:
-                                - name: input4
-                                  type: String
-                                  value: <+input>
-                            timeout: <+input>
+          inputSetReferences:
+            - <+pipeline.variables.input_set_name2>
         tags: {}
         variables:
           - name: test234
