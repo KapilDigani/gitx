@@ -56,18 +56,30 @@ pipeline:
                         source:
                           type: Inline
                           spec:
-                            script: |-
-                              echo <+pipeline.variables.input_set_name3>
-                              exit 0
+                            script: echo "helllo"
                         environmentVariables: []
                         outputVariables: []
                         executionTarget: {}
                       timeout: 10m
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
             tags: {}
             delegateSelectors: <+input>
             when:
               pipelineStatus: Success
-              condition: "false"
         - stage:
             name: Test2
             identifier: Test2
