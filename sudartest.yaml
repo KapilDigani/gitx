@@ -38,35 +38,84 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
-    - stage:
-        name: Custom
-        identifier: Custom
-        description: ""
-        type: Custom
-        spec:
-          execution:
-            steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    source:
-                      type: Inline
+    - parallel:
+        - stage:
+            name: Custom
+            identifier: Custom
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
                       spec:
-                        script: |-
-                          echo <+pipeline.variables.input_set_name3>
-                          exit 0
-                    environmentVariables: []
-                    outputVariables: []
-                    executionTarget: {}
-                  timeout: 10m
-        tags: {}
-        delegateSelectors: <+input>
-        when:
-          pipelineStatus: Success
-          condition: "false"
+                        shell: Bash
+                        source:
+                          type: Inline
+                          spec:
+                            script: |-
+                              echo <+pipeline.variables.input_set_name3>
+                              exit 0
+                        environmentVariables: []
+                        outputVariables: []
+                        executionTarget: {}
+                      timeout: 10m
+            tags: {}
+            delegateSelectors: <+input>
+            when:
+              pipelineStatus: Success
+              condition: "false"
+        - stage:
+            name: Test2
+            identifier: Test2
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            tags: {}
+        - stage:
+            name: Test3
+            identifier: Test3
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            tags: {}
     - stage:
         name: child
         identifier: child
