@@ -289,6 +289,32 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+    - stage:
+        name: buildstage
+        identifier: buildstage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.Harness_Kubernetes_Cluster
+              namespace: test
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    connectorRef: testttaws
+                    image: test
+                    shell: Sh
+                    command: echo "hello"
   variables:
     - name: input_set_name_with_long_name_and_longer_name
       type: String
