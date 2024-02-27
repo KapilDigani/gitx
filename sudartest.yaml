@@ -54,3 +54,24 @@ pipeline:
         template:
           templateRef: approvaltemplate
           versionLabel: v1
+          templateInputs:
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      identifier: httpstep
+                      type: Http
+                      spec:
+                        inputVariables:
+                          - name: testinput
+                            type: String
+                            value: <+input>
+                  - step:
+                      identifier: ShellScript_1
+                      type: ShellScript
+                      spec:
+                        source:
+                          type: Inline
+                          spec:
+                            script: <+input>
