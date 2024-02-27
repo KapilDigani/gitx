@@ -1,29 +1,20 @@
 inputSet:
+  name: ISrun
+  tags: {}
+  identifier: ISrun
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
   pipeline:
     identifier: sudartest
     stages:
+      - parallel:
+          - stage:
+              identifier: Custom
+              type: Custom
+              delegateSelectors: <+input>
       - stage:
           identifier: child
           type: Pipeline
-          spec:
-            inputs:
-              identifier: Approval_Pipeline
-              stages:
-                - stage:
-                    identifier: customs3
-                    type: Custom
-                    spec:
-                      execution:
-                        steps:
-                          - step:
-                              identifier: ShellScript_1
-                              type: ShellScript
-                              spec:
-                                environmentVariables:
-                                  - name: input4
-                                    type: String
-                                    value: sdsd
-                              timeout: 10w
           variables:
             - name: test234
               type: String
@@ -41,7 +32,7 @@ inputSet:
                       environmentVariables:
                         - name: test
                           type: Number
-                          value: sdsd
+                          value: "10"
                       includeInfraSelectors: false
             services:
               values:
@@ -101,20 +92,6 @@ inputSet:
       - name: input_set_name_with_long_name_and_longer_name
         type: String
         value: sdsd
-      - name: input_set_name2
-        type: String
-        value: sdsd
       - name: input_set_name3
         type: String
-        value: sdsd
-  name: ISrun
-  identifier: ISrun
-  provider:
-    type: Others
-    title: Third-party Git provider
-    info: Store pipeline in a third party Git provider
-    icon: service-github
-    size: 20
-    disabled: false
-  orgIdentifier: default
-  projectIdentifier: TF_Test_Sudar
+        value: aa
