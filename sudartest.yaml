@@ -43,7 +43,7 @@ pipeline:
               errors:
                 - AllErrors
               action:
-                type: Ignore
+                type: MarkAsSuccess
     - parallel:
         - stage:
             name: Custom
