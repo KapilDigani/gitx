@@ -38,6 +38,12 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Ignore
     - parallel:
         - stage:
             name: Custom
