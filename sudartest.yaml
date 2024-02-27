@@ -344,19 +344,16 @@ pipeline:
     - name: test
       identifier: test
       pipelineEvents:
-        - type: AllEvents
-        - type: PipelineStart
-        - type: PipelineEnd
-        - type: PipelineSuccess
-        - type: PipelineFailed
         - type: StageFailed
+          forStages:
+            - approval
         - type: StageSuccess
-        - type: StageStart
-        - type: StepFailed
+          forStages:
+            - approval
       notificationMethod:
         type: Email
         spec:
           userGroups: []
           recipients:
-            - sudarshan@harness.io
+            - sudarshan.purohit@harness.io
       enabled: true
