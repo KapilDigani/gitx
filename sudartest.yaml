@@ -50,7 +50,7 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
-          condition: "false"
+          condition: <+input>
     - stage:
         name: customstage
         identifier: customstage
