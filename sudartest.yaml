@@ -48,6 +48,9 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+        when:
+          pipelineStatus: Success
+          condition: "false"
     - stage:
         name: customstage
         identifier: customstage
