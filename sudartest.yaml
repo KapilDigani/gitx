@@ -82,6 +82,25 @@ pipeline:
                           disallowPipelineExecutor: false
                         approverInputs: []
                       timeout: 1d
+                  - step:
+                      type: TerraformPlan
+                      name: TerraformPlan_1
+                      identifier: TerraformPlan_1
+                      spec:
+                        provisionerIdentifier: testid
+                        configuration:
+                          command: Apply
+                          configFiles:
+                            store:
+                              spec:
+                                connectorRef: gitlabconnector
+                                repoName: " TestProj"
+                                gitFetchType: Branch
+                                branch: main
+                                folderPath: test.tf
+                              type: GitLab
+                          secretManagerRef: <+input>
+                      timeout: 10m
             tags: {}
             delegateSelectors: <+input>
             when:
