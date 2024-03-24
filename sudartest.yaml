@@ -8,6 +8,7 @@ pipeline:
     type: prod
     test: Ershad
     keying: shantelle
+    test2: <+pipeline.name>
   stages:
     - stage:
         name: approval
