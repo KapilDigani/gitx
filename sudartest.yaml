@@ -44,7 +44,11 @@ pipeline:
               errors:
                 - AllErrors
               action:
-                type: MarkAsSuccess
+                type: Retry
+                spec:
+                  retryCount: 2
+                  retryIntervals:
+                    - 10w
     - parallel:
         - stage:
             name: Custom
