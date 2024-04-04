@@ -49,6 +49,9 @@ pipeline:
                   retryCount: 2
                   retryIntervals:
                     - 10w
+                  onRetryFailure:
+                    action:
+                      type: Abort
     - parallel:
         - stage:
             name: Custom
