@@ -247,7 +247,12 @@ pipeline:
               errors:
                 - AllErrors
               action:
-                type: Abort
+                type: Retry
+                spec:
+                  retryCount: 2
+                  onRetryFailure:
+                    action:
+                      type: Ignore
     - stage:
         name: template
         identifier: template
