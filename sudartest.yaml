@@ -195,7 +195,7 @@ pipeline:
             type: String
             description: sdfs
             required: false
-            value: <+input>.executionInput()
+            value: <+input>.executionInput().allowedValues(<+pipeline.name>,<+pipeline.id>)
     - stage:
         name: buildstage
         identifier: buildstage
