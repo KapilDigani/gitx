@@ -419,6 +419,19 @@ pipeline:
       - name: testbarrier
         identifier: testbarrier
   notificationRules:
+    - name: test2
+      identifier: test2
+      pipelineEvents:
+        - type: StageSuccess
+          forStages:
+            - approval
+      notificationMethod:
+        type: Webhook
+        spec:
+          webhookUrl: https://webhook.site/1eec8c05-e2ac-4d9d-b9c7-bf590092da08
+          headers:
+            hello: <+pipeline.name>
+      enabled: true
     - name: test
       identifier: test
       pipelineEvents:
