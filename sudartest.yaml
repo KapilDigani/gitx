@@ -287,6 +287,7 @@ pipeline:
           webhookUrl: https://webhook.site/1eec8c05-e2ac-4d9d-b9c7-bf590092da08
           headers:
             hello: <+pipeline.name>
+            x-api-key: <+pipeline.variables.input_set_name_with_long_name_and_longer_name>
       enabled: true
     - name: test
       identifier: test
