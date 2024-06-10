@@ -109,6 +109,28 @@ pipeline:
                               type: GitLab
                           secretManagerRef: <+input>
                       timeout: 10m
+                  - step:
+                      type: Email
+                      name: Email_1
+                      identifier: Email_1
+                      spec:
+                        to: sudarshan.purohit@gmail.com
+                        cc: ""
+                        subject: Test email from pipeline
+                        body: |-
+                          <html>
+                          <head>
+                            <style>
+                              table {
+                                font-family: Charles Modern;
+                                border-collapse: collapse;
+                                table-layout: fixed;
+                                width: 70%;
+                                overflow-wrap: break-word;
+                              }
+                            </style>
+                          </head>
+                      timeout: 10m
             tags: {}
             delegateSelectors: <+input>
             when:
