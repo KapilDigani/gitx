@@ -315,7 +315,7 @@ pipeline:
     - name: input_set_name_with_long_name_and_longer_name
       type: String
       description: Descriptive stuff
-      required: true
+      required: false
       value: <+input>
     - name: input_set_name2
       type: String
