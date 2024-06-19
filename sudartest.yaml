@@ -44,14 +44,7 @@ pipeline:
               errors:
                 - AllErrors
               action:
-                type: Retry
-                spec:
-                  retryCount: 2
-                  retryIntervals:
-                    - 10w
-                  onRetryFailure:
-                    action:
-                      type: Abort
+                type: Abort
     - stage:
         name: deploystage
         identifier: deploystage
