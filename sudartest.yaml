@@ -323,7 +323,7 @@ pipeline:
       type: String
       description: Descriptive stuff
       required: true
-      value: <+input>.allowedValues(<+pipeline.name>,<+pipeline.id>)
+      value: <+input>
     - name: input_set_name2
       type: String
       description: ""
@@ -332,7 +332,7 @@ pipeline:
     - name: input_set_name3
       type: String
       description: ""
-      value: <+input>.allowedValues(aa,bb,cc,)
+      value: <+input>
     - name: required_variable
       type: String
       description: ""
