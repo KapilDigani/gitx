@@ -94,7 +94,6 @@ pipeline:
                 type: StageRollback
         when:
           pipelineStatus: Success
-          condition: <+pipeline.name != "test">
     - parallel:
         - stage:
             name: Custom
