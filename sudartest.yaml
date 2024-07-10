@@ -77,6 +77,9 @@ pipeline:
                   spec:
                     skipDryRun: false
                     pruningEnabled: false
+                  when:
+                    stageStatus: Success
+                    condition: " <+execution.steps.service.status>"
             rollbackSteps:
               - step:
                   name: Rollback Rollout Deployment
