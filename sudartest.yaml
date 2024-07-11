@@ -176,6 +176,12 @@ pipeline:
                             </style>
                           </head>
                       timeout: 10m
+                  - step:
+                      name: test23
+                      identifier: test23
+                      template:
+                        templateRef: Approvaltemplate
+                        versionLabel: v1
             tags: {}
             delegateSelectors: <+input>
             when:
