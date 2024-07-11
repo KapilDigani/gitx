@@ -46,6 +46,21 @@ pipeline:
               action:
                 type: Abort
     - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: sdsd
+                  identifier: sdsd
+                  template:
+                    templateRef: Approvaltemplate
+                    versionLabel: v1
+        tags: {}
+    - stage:
         name: deploystage
         identifier: deploystage
         description: ""
