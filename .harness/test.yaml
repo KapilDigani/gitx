@@ -1,0 +1,37 @@
+inputSet:
+  name: test
+  identifier: test
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
+  pipeline:
+    identifier: sudartest
+    stages:
+      - stage:
+          identifier: approval
+          type: Approval
+          when:
+            condition: <+input>
+      - stage:
+          identifier: customstage
+          template:
+            templateInputs:
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: httpstep
+                        type: Http
+                        spec:
+                          inputVariables:
+                            - name: testinput
+                              type: String
+                              value: sdsd
+                    - step:
+                        identifier: ShellScript_1
+                        type: ShellScript
+                        spec:
+                          source:
+                            type: Inline
+                            spec:
+                              script: sdsd
