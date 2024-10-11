@@ -393,3 +393,4 @@ pipeline:
           recipients:
             - sudarshan.purohit@harness.io
       enabled: true
+  description: Test Description
