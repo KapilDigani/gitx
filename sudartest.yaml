@@ -54,7 +54,7 @@ pipeline:
           execution:
             steps:
               - step:
-                  name: sdsd
+                  name: sdsdsdfsdf
                   identifier: sdsd
                   template:
                     templateRef: Approvaltemplate
