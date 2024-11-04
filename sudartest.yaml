@@ -97,6 +97,22 @@ pipeline:
                     condition: " <+execution.steps.service.status>"
             rollbackSteps:
               - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "hello"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+                  when:
+                    stageStatus: Success
+              - step:
                   name: Rollback Rollout Deployment
                   identifier: rollbackRolloutDeployment
                   type: K8sRollingRollback
