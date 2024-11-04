@@ -337,6 +337,10 @@ pipeline:
                           type: Inline
                           spec:
                             script: <+input>
+                        environmentVariables:
+                          - name: bklabla
+                            type: String
+                            value: <+input>
   variables:
     - name: input_set_name_with_long_name_and_longer_name
       type: String
