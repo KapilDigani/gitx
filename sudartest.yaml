@@ -94,7 +94,6 @@ pipeline:
                     pruningEnabled: false
                   when:
                     stageStatus: Success
-                    condition: " <+execution.steps.service.status>"
             rollbackSteps:
               - step:
                   type: ShellScript
