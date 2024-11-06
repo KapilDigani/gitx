@@ -85,6 +85,20 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo <+stage.spec.serviceConfig>
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+              - step:
                   name: Rollout Deployment
                   identifier: rolloutDeployment
                   type: K8sRollingDeploy
@@ -382,6 +396,17 @@ pipeline:
       - name: testbarrier
         identifier: testbarrier
   notificationRules:
+    - name: xcx
+      identifier: xcx
+      pipelineEvents:
+        - type: PipelineEnd
+      notificationMethod:
+        type: Email
+        spec:
+          userGroups: []
+          recipients:
+            - sudarshan.purohit@harness.io
+      enabled: false
     - name: test2
       identifier: test2
       pipelineEvents:
@@ -395,7 +420,7 @@ pipeline:
           headers:
             hello: <+pipeline.name>
             x-api-key: <+pipeline.variables.input_set_name_with_long_name_and_longer_name>
-      enabled: true
+      enabled: false
     - name: test
       identifier: test
       pipelineEvents:
