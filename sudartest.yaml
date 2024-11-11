@@ -59,6 +59,58 @@ pipeline:
                   template:
                     templateRef: Approvaltemplate
                     versionLabel: v1
+              - stepGroup:
+                  name: step1
+                  identifier: step1
+                  steps:
+                    - stepGroup:
+                        name: step3
+                        identifier: step3
+                        steps:
+                          - step:
+                              type: ShellScript
+                              name: ShellScript_1
+                              identifier: ShellScript_1
+                              spec:
+                                shell: Bash
+                                executionTarget: {}
+                                source:
+                                  type: Inline
+                                  spec:
+                                    script: echo "hello"
+                                environmentVariables: []
+                                outputVariables: []
+                              timeout: 10m
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - AllErrors
+                              action:
+                                type: MarkAsFailure
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: MarkAsFailure
+              - stepGroup:
+                  name: step2
+                  identifier: step2
+                  steps:
+                    - stepGroup:
+                        name: step3
+                        identifier: step3
+                        steps:
+                          - step:
+                              type: Email
+                              name: Email_1
+                              identifier: Email_1
+                              spec:
+                                to: sdars@gmail.com
+                                cc: ""
+                                subject: sdcsd
+                                body: haha
+                              timeout: 10m
         tags: {}
     - stage:
         name: deploystage
