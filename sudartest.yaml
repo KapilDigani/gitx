@@ -81,19 +81,14 @@ pipeline:
                   identifier: step1
                   steps:
                     - step:
-                        type: ShellScript
-                        name: ShellScript_1
-                        identifier: ShellScript_1
+                        type: Run
+                        name: Run_1
+                        identifier: Run_1
                         spec:
-                          shell: Bash
-                          executionTarget: {}
-                          source:
-                            type: Inline
-                            spec:
-                              script: echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
-                          environmentVariables: []
-                          outputVariables: []
-                        timeout: 10m
+                          connectorRef: account.harnessImage
+                          image: library/nginx
+                          shell: Sh
+                          command: echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
                   failureStrategies:
                     - onFailure:
                         errors:
