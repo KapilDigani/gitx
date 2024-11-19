@@ -59,34 +59,41 @@ pipeline:
                   template:
                     templateRef: Approvaltemplate
                     versionLabel: v1
+              - step:
+                  type: ShellScript
+                  name: ShellScript_2
+                  identifier: ShellScript_2
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "hello"
+                    environmentVariables: []
+                    outputVariables:
+                      - name: hello
+                        type: String
+                        value: how
+                  timeout: 10m
               - stepGroup:
                   name: step1
                   identifier: step1
                   steps:
-                    - stepGroup:
-                        name: step3
-                        identifier: step3
-                        steps:
-                          - step:
-                              type: ShellScript
-                              name: ShellScript_1
-                              identifier: ShellScript_1
-                              spec:
-                                shell: Bash
-                                executionTarget: {}
-                                source:
-                                  type: Inline
-                                  spec:
-                                    script: echo "hello"
-                                environmentVariables: []
-                                outputVariables: []
-                              timeout: 10m
-                        failureStrategies:
-                          - onFailure:
-                              errors:
-                                - AllErrors
-                              action:
-                                type: MarkAsFailure
+                    - step:
+                        type: ShellScript
+                        name: ShellScript_1
+                        identifier: ShellScript_1
+                        spec:
+                          shell: Bash
+                          executionTarget: {}
+                          source:
+                            type: Inline
+                            spec:
+                              script: echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
+                          environmentVariables: []
+                          outputVariables: []
+                        timeout: 10m
                   failureStrategies:
                     - onFailure:
                         errors:
@@ -112,6 +119,12 @@ pipeline:
                                 body: haha
                               timeout: 10m
         tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Ignore
     - stage:
         name: deploystage
         identifier: deploystage
