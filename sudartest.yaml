@@ -100,6 +100,10 @@ pipeline:
                           - AllErrors
                         action:
                           type: MarkAsFailure
+                  stepGroupInfra:
+                    type: KubernetesDirect
+                    spec:
+                      connectorRef: testdcplay
               - stepGroup:
                   name: step2
                   identifier: step2
