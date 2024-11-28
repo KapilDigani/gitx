@@ -81,20 +81,24 @@ pipeline:
                   identifier: step1
                   steps:
                     - step:
-                        type: Run
+                        type: ShellScript
                         name: Run_1
                         identifier: Run_1
                         spec:
-                          connectorRef: account.harnessImage
-                          image: library/nginx
-                          shell: Sh
-                          command: |-
-                            echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
-                            export var1=varvalue
+                          shell: Bash
+                          executionTarget: {}
+                          source:
+                            type: Inline
+                            spec:
+                              script: |-
+                                echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
+                                export var1=varvalue
+                          environmentVariables: []
                           outputVariables:
                             - name: var1
                               type: String
                               value: var1
+                        timeout: 10m
                     - stepGroup:
                         name: group2
                         identifier: group2
