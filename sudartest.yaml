@@ -166,6 +166,7 @@ pipeline:
                   variables:
                     - name: ServiceVar
                       type: String
+                      description: ""
                       value: <+input>
           environment:
             environmentRef: env1
