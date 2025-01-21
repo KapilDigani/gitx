@@ -199,6 +199,16 @@ pipeline:
                     pruningEnabled: false
                   when:
                     stageStatus: Success
+              - step:
+                  type: GitOpsUpdateReleaseRepo
+                  name: GitOpsUpdateReleaseRepo_1
+                  identifier: GitOpsUpdateReleaseRepo_1
+                  spec:
+                    variables:
+                      - name: test
+                        type: String
+                        value: <+pipeline.name>
+                  timeout: 10m
             rollbackSteps:
               - step:
                   type: ShellScript
