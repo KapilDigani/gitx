@@ -1,5 +1,5 @@
 pipeline:
-  name: sudar.  test
+  name: Sudarshan Test
   identifier: sudartest
   projectIdentifier: TF_Test_Sudar
   orgIdentifier: default
@@ -470,71 +470,3 @@ pipeline:
                           - name: bklabla
                             type: String
                             value: <+input>
-  variables:
-    - name: input_set_name_with_long_name_and_longer_name
-      type: String
-      description: Descriptive stuff
-      required: false
-      value: <+input>
-    - name: input_set_name2
-      type: String
-      description: ""
-      required: true
-      value: input_preprod
-    - name: input_set_name3
-      type: String
-      description: ""
-      value: <+input>
-    - name: required_variable
-      type: String
-      description: ""
-      required: false
-      value: "10"
-  allowStageExecutions: true
-  flowControl:
-    barriers:
-      - name: testbarrier
-        identifier: testbarrier
-  notificationRules:
-    - name: xcx
-      identifier: xcx
-      pipelineEvents:
-        - type: PipelineEnd
-      notificationMethod:
-        type: Email
-        spec:
-          userGroups: []
-          recipients:
-            - sudarshan.purohit@harness.io
-      enabled: false
-    - name: test2
-      identifier: test2
-      pipelineEvents:
-        - type: StageSuccess
-          forStages:
-            - approval
-      notificationMethod:
-        type: Webhook
-        spec:
-          webhookUrl: https://webhook.site/1eec8c05-e2ac-4d9d-b9c7-bf590092da08
-          headers:
-            hello: <+pipeline.name>
-            x-api-key: <+pipeline.variables.input_set_name_with_long_name_and_longer_name>
-      enabled: false
-    - name: test
-      identifier: test
-      pipelineEvents:
-        - type: StageFailed
-          forStages:
-            - approval
-        - type: StageSuccess
-          forStages:
-            - approval
-      notificationMethod:
-        type: Email
-        spec:
-          userGroups: []
-          recipients:
-            - sudarshan.purohit@harness.io
-      enabled: true
-  description: Test Description
