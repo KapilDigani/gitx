@@ -470,3 +470,4 @@ pipeline:
                           - name: bklabla
                             type: String
                             value: <+input>
+  allowStageExecutions: true
