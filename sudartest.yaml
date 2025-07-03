@@ -241,6 +241,100 @@ pipeline:
                 type: StageRollback
         when:
           pipelineStatus: Success
+    - stage:
+        name: test123
+        identifier: test123
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: <+input>
+            serviceInputs: <+input>
+          environment:
+            environmentRef: <+input>
+            deployToAll: false
+            environmentInputs: <+input>
+            serviceOverrideInputs: <+input>
+            infrastructureDefinitions: <+input>
+          execution:
+            steps:
+              - stepGroup:
+                  name: Canary Deployment
+                  identifier: canaryDeployment
+                  steps:
+                    - step:
+                        name: Canary Deployment
+                        identifier: canaryDeployment
+                        type: K8sCanaryDeploy
+                        timeout: 10m
+                        spec:
+                          instanceSelection:
+                            spec:
+                              percentage: 50
+                            type: Percentage
+                          skipDryRun: false
+                          trafficRouting:
+                            spec:
+                              routes:
+                                - route:
+                                    type: http
+                                    name: route1
+                                    destinations:
+                                      - destination:
+                                          host: stable
+                                      - destination:
+                                          host: canary
+                              name: virtual-service-<+service.name>
+                            provider: istio
+                    - step:
+                        type: K8sCanaryDeploy
+                        name: K8sCanaryDeploy_1
+                        identifier: K8sCanaryDeploy_1
+                        spec:
+                          skipDryRun: false
+                          instanceSelection:
+                            spec:
+                              percentage: 50
+                            type: Percentage
+                        timeout: 10m
+                    - step:
+                        name: Canary Delete
+                        identifier: canaryDelete
+                        type: K8sCanaryDelete
+                        timeout: 10m
+                        spec: {}
+              - stepGroup:
+                  name: Primary Deployment
+                  identifier: primaryDeployment
+                  steps:
+                    - step:
+                        name: Rolling Deployment
+                        identifier: rollingDeployment
+                        type: K8sRollingDeploy
+                        timeout: 10m
+                        spec:
+                          skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Canary Delete
+                  identifier: rollbackCanaryDelete
+                  type: K8sCanaryDelete
+                  timeout: 10m
+                  spec: {}
+              - step:
+                  name: Rolling Rollback
+                  identifier: rollingRollback
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
     - parallel:
         - stage:
             name: Custom
