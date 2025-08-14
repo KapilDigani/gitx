@@ -11,7 +11,7 @@ pipeline:
     test2: <+pipeline.name>
   stages:
     - stage:
-        name: approvalweqweqwe
+        name: approval
         identifier: approvalqweqweqwe
         description: ""
         type: Approval
