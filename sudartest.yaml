@@ -177,38 +177,28 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
+                  type: GitOpsSync
+                  name: GitOpsSync_1
+                  identifier: GitOpsSync_1
                   spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
-                      spec:
-                        script: echo <+stage.spec.serviceConfig>
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
-              - step:
-                  name: Rollout Deployment
-                  identifier: rolloutDeployment
-                  type: K8sRollingDeploy
-                  timeout: 10m
-                  spec:
-                    skipDryRun: false
-                    pruningEnabled: false
-                  when:
-                    stageStatus: Success
-              - step:
-                  type: GitOpsUpdateReleaseRepo
-                  name: GitOpsUpdateReleaseRepo_1
-                  identifier: GitOpsUpdateReleaseRepo_1
-                  spec:
-                    variables:
-                      - name: test
-                        type: String
-                        value: <+pipeline.name>
+                    prune: false
+                    dryRun: false
+                    applyOnly: false
+                    forceApply: false
+                    applicationsList:
+                      - applicationName: engineering-prod-guestbook
+                        agentId: sudarshanagent1
+                      - applicationName: engineering-dev-guestbook
+                        agentId: sudarshanagent1
+                    retryStrategy: {}
+                    retry: false
+                    syncOptions:
+                      skipSchemaValidation: true
+                      autoCreateNamespace: false
+                      pruneResourcesAtLast: false
+                      applyOutOfSyncOnly: false
+                      replaceResources: false
+                      prunePropagationPolicy: foreground
                   timeout: 10m
             rollbackSteps:
               - step:
