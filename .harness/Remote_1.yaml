@@ -1,0 +1,30 @@
+pipeline:
+  name: Remote 1
+  identifier: Remote_1
+  projectIdentifier: KD_Playground
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Custom
+        identifier: Custom
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Shell Script_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Welcome to Git Experience"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
