@@ -1,0 +1,12 @@
+connector:
+  name: K8s
+  identifier: K8s
+  description: Commented in Harness to test the conflict
+  orgIdentifier: KD
+  projectIdentifier: KD_QuickStart
+  type: K8sCluster
+  spec:
+    credential:
+      type: InheritFromDelegate
+    delegateSelectors:
+    - kd1-gcp

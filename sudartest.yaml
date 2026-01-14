@@ -1,0 +1,559 @@
+pipeline:
+  name: Sudarshan Test
+  identifier: sudartest
+  projectIdentifier: TF_Test_Sudar
+  orgIdentifier: default
+  tags:
+    name: mohit
+    type: prod
+    test: Ershad
+    keying: shantelle
+    test2: <+pipeline.name>
+  stages:
+    - stage:
+        name: approval
+        identifier: approvalqweqweqwe
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: approval step
+                  identifier: approval_step
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: |-
+                      Please review the following information
+                      and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - account.ProductManagement
+                    approverInputs:
+                      - name: testinput
+                        defaultValue: ""
+        tags: {}
+        when:
+          pipelineStatus: Success
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Abort
+    - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: sdsdsdfsdf
+                  identifier: sdsd
+                  template:
+                    templateRef: Approvaltemplate
+                    versionLabel: v1
+              - step:
+                  type: ShellScript
+                  name: ShellScript_2
+                  identifier: ShellScript_2
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          export how="howaar"
+                          echo <+pipeline.branch1>
+                    environmentVariables: []
+                    outputVariables:
+                      - name: hello
+                        type: String
+                        value: how
+                  timeout: 10m
+              - stepGroup:
+                  name: step1
+                  identifier: step1
+                  steps:
+                    - step:
+                        type: ShellScript
+                        name: Run_1
+                        identifier: Run_1
+                        spec:
+                          shell: Bash
+                          executionTarget: {}
+                          source:
+                            type: Inline
+                            spec:
+                              script: |-
+                                echo <+execution.steps.ShellScript_2.output.outputVariables.hello>
+                                export var1=varvalue
+                          environmentVariables: []
+                          outputVariables:
+                            - name: var1
+                              type: String
+                              value: var1
+                        timeout: 10m
+                    - stepGroup:
+                        name: group2
+                        identifier: group2
+                        steps:
+                          - step:
+                              type: ShellScript
+                              name: ShellScript_2_1
+                              identifier: ShellScript_2_1
+                              spec:
+                                shell: Bash
+                                executionTarget: {}
+                                source:
+                                  type: Inline
+                                  spec:
+                                    script: |+
+                                      echo <+stepGroup.getParentStepGroup.steps.Run_1.output.outputVariables.var1>
+
+                                environmentVariables: []
+                                outputVariables: []
+                              timeout: 10m
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - AllErrors
+                        action:
+                          type: MarkAsFailure
+              - stepGroup:
+                  name: step2
+                  identifier: step2
+                  steps:
+                    - stepGroup:
+                        name: step3
+                        identifier: step3
+                        steps:
+                          - step:
+                              type: Email
+                              name: Email_1
+                              identifier: Email_1
+                              spec:
+                                to: sdars@gmail.com
+                                cc: ""
+                                subject: sdcsd
+                                body: haha
+                              timeout: 10m
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Ignore
+    - stage:
+        name: deploystage
+        identifier: deploystage
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: SudarService
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  variables:
+                    - name: ServiceVar
+                      type: String
+                      value: <+input>
+          environment:
+            environmentRef: env1
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: infra1
+          execution:
+            steps:
+              - step:
+                  type: GitOpsSync
+                  name: GitOpsSync_1
+                  identifier: GitOpsSync_1
+                  spec:
+                    prune: false
+                    dryRun: false
+                    applyOnly: false
+                    forceApply: false
+                    applicationsList:
+                      - applicationName: engineering-prod-guestbook
+                        agentId: sudarshanagent1
+                      - applicationName: engineering-dev-guestbook
+                        agentId: sudarshanagent1
+                    retryStrategy: {}
+                    retry: false
+                    syncOptions:
+                      skipSchemaValidation: true
+                      autoCreateNamespace: false
+                      pruneResourcesAtLast: false
+                      applyOutOfSyncOnly: false
+                      replaceResources: false
+                      prunePropagationPolicy: foreground
+                  timeout: 10m
+            rollbackSteps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "hello"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+                  when:
+                    stageStatus: Success
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+        when:
+          pipelineStatus: Success
+    - stage:
+        name: test123
+        identifier: test123
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: <+input>
+            serviceInputs: <+input>
+          environment:
+            environmentRef: <+input>
+            deployToAll: false
+            environmentInputs: <+input>
+            serviceOverrideInputs: <+input>
+            infrastructureDefinitions: <+input>
+          execution:
+            steps:
+              - stepGroup:
+                  name: Canary Deployment
+                  identifier: canaryDeployment
+                  steps:
+                    - step:
+                        name: Canary Deployment
+                        identifier: canaryDeployment
+                        type: K8sCanaryDeploy
+                        timeout: 10m
+                        spec:
+                          instanceSelection:
+                            spec:
+                              percentage: 50
+                            type: Percentage
+                          skipDryRun: false
+                          trafficRouting:
+                            spec:
+                              routes:
+                                - route:
+                                    type: http
+                                    name: route1
+                                    destinations:
+                                      - destination:
+                                          host: stable
+                                      - destination:
+                                          host: canary
+                              name: virtual-service-<+service.name>
+                            provider: istio
+                    - step:
+                        type: K8sCanaryDeploy
+                        name: K8sCanaryDeploy_1
+                        identifier: K8sCanaryDeploy_1
+                        spec:
+                          skipDryRun: false
+                          instanceSelection:
+                            spec:
+                              percentage: 50
+                            type: Percentage
+                        timeout: 10m
+                    - step:
+                        name: Canary Delete
+                        identifier: canaryDelete
+                        type: K8sCanaryDelete
+                        timeout: 10m
+                        spec: {}
+              - stepGroup:
+                  name: Primary Deployment
+                  identifier: primaryDeployment
+                  steps:
+                    - step:
+                        name: Rolling Deployment
+                        identifier: rollingDeployment
+                        type: K8sRollingDeploy
+                        timeout: 10m
+                        spec:
+                          skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Canary Delete
+                  identifier: rollbackCanaryDelete
+                  type: K8sCanaryDelete
+                  timeout: 10m
+                  spec: {}
+              - step:
+                  name: Rolling Rollback
+                  identifier: rollingRollback
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+    - parallel:
+        - stage:
+            name: Custom
+            identifier: Custom
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        source:
+                          type: Inline
+                          spec:
+                            script: echo "helllo"
+                        environmentVariables: []
+                        outputVariables: []
+                        executionTarget: {}
+                      timeout: 10m
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+                  - step:
+                      type: TerraformPlan
+                      name: TerraformPlan_1
+                      identifier: TerraformPlan_1
+                      spec:
+                        provisionerIdentifier: testid
+                        configuration:
+                          command: Apply
+                          configFiles:
+                            store:
+                              spec:
+                                connectorRef: gitlabconnector
+                                repoName: " TestProj"
+                                gitFetchType: Branch
+                                branch: main
+                                folderPath: test.tf
+                              type: GitLab
+                          secretManagerRef: <+input>
+                      timeout: 10m
+                  - step:
+                      type: Email
+                      name: Email_1
+                      identifier: Email_1
+                      spec:
+                        to: sudarshan.purohit@gmail.com
+                        cc: ""
+                        subject: Test email from pipeline
+                        body: |-
+                          <html>
+                          <head>
+                            <style>
+                              table {
+                                font-family: Charles Modern;
+                                border-collapse: collapse;
+                                table-layout: fixed;
+                                width: 70%;
+                                overflow-wrap: break-word;
+                              }
+                            </style>
+                          </head>
+                      timeout: 10m
+                  - step:
+                      name: test23
+                      identifier: test23
+                      template:
+                        templateRef: Approvaltemplate
+                        versionLabel: v1
+            tags: {}
+            delegateSelectors: <+input>
+            when:
+              pipelineStatus: Success
+        - stage:
+            name: Test2
+            identifier: Test2
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            tags: {}
+        - stage:
+            name: Test3
+            identifier: Test3
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: HarnessApproval
+                      name: HarnessApproval_1
+                      identifier: HarnessApproval_1
+                      spec:
+                        approvalMessage: Please review the following information and approve the pipeline progression
+                        includePipelineExecutionHistory: true
+                        isAutoRejectEnabled: false
+                        approvers:
+                          userGroups:
+                            - account.ProductManagement
+                          minimumCount: 1
+                          disallowPipelineExecutor: false
+                        approverInputs: []
+                      timeout: 1d
+            tags: {}
+    - stage:
+        name: child
+        identifier: child
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: Approval_Pipeline
+          project: TF_Test_Sudar
+          outputs: []
+          inputs:
+            identifier: Approval_Pipeline
+            stages:
+              - stage:
+                  identifier: customs3
+                  type: Custom
+                  spec:
+                    execution:
+                      steps:
+                        - step:
+                            identifier: ShellScript_1
+                            type: ShellScript
+                            spec:
+                              environmentVariables:
+                                - name: input4
+                                  type: String
+                                  value: sdsd
+                            timeout: 10s
+        tags: {}
+        variables:
+          - name: test234
+            type: String
+            description: sdfs
+            required: false
+            value: <+input>.executionInput().allowedValues(<+pipeline.name>,<+pipeline.id>)
+    - stage:
+        name: buildstage
+        identifier: buildstage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.Harness_Kubernetes_Cluster
+              namespace: test
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    connectorRef: testttaws
+                    image: test
+                    shell: Sh
+                    command: echo "hello"
+    - stage:
+        name: template
+        identifier: template
+        template:
+          templateRef: approvaltemplate
+          versionLabel: v1
+          templateInputs:
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      identifier: httpstep
+                      type: Http
+                      spec:
+                        inputVariables:
+                          - name: testinput
+                            type: String
+                            value: <+input>
+                  - step:
+                      identifier: ShellScript_1
+                      type: ShellScript
+                      spec:
+                        source:
+                          type: Inline
+                          spec:
+                            script: <+input>
+                        environmentVariables:
+                          - name: bklabla
+                            type: String
+                            value: <+input>
+  allowStageExecutions: true

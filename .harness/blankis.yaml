@@ -1,0 +1,74 @@
+inputSet:
+  name: blankis
+  tags: {}
+  identifier: blankis
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
+  pipeline:
+    identifier: sudartest
+    stages:
+      - stage:
+          identifier: deploystage
+          type: Deployment
+          spec:
+            service:
+              serviceInputs:
+                serviceDefinition:
+                  type: Kubernetes
+                  spec:
+                    variables:
+                      - name: ServiceVar
+                        type: String
+                        value: <+input>
+      - parallel:
+          - stage:
+              identifier: Custom
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: TerraformPlan_1
+                        type: TerraformPlan
+                        spec:
+                          configuration:
+                            secretManagerRef: <+input>
+              delegateSelectors: []
+      - stage:
+          identifier: child
+          type: Pipeline
+          variables:
+            - name: test234
+              type: String
+              value: <+input>.executionInput().allowedValues(<+pipeline.name>,<+pipeline.id>)
+      - stage:
+          identifier: template
+          template:
+            templateInputs:
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: httpstep
+                        type: Http
+                        spec:
+                          inputVariables:
+                            - name: testinput
+                              type: String
+                              value: <+input>
+                    - step:
+                        identifier: ShellScript_1
+                        type: ShellScript
+                        spec:
+                          source:
+                            type: Inline
+                            spec:
+                              script: <+input>
+    variables:
+      - name: input_set_name_with_long_name_and_longer_name
+        type: String
+        value: <+input>
+      - name: input_set_name3
+        type: String
+        value: <+input>
