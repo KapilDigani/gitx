@@ -61,6 +61,20 @@ pipeline:
                     versionLabel: v1
               - step:
                   type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo q
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+              - step:
+                  type: ShellScript
                   name: ShellScript_2
                   identifier: ShellScript_2
                   spec:
@@ -199,6 +213,20 @@ pipeline:
                       applyOutOfSyncOnly: false
                       replaceResources: false
                       prunePropagationPolicy: foreground
+                  timeout: 10m
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo 1
+                    environmentVariables: []
+                    outputVariables: []
                   timeout: 10m
             rollbackSteps:
               - step:
