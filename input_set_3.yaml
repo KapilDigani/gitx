@@ -1,0 +1,65 @@
+inputSet:
+  name: input set 3
+  tags: {}
+  identifier: input_set_3
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
+  pipeline:
+    identifier: sudartest
+    stages:
+      - stage:
+          identifier: child
+          type: Pipeline
+          variables:
+            - name: test234
+              type: String
+              value: <+input>.executionInput()
+      - stage:
+          identifier: deploystage
+          type: Deployment
+          spec:
+            execution:
+              steps:
+                - step:
+                    identifier: ShellScript_1
+                    type: ShellScript
+                    spec:
+                      environmentVariables:
+                        - name: test
+                          type: Number
+                          value: <+input>
+                      includeInfraSelectors: false
+      - stage:
+          identifier: template
+          template:
+            templateInputs:
+              type: Custom
+              spec:
+                execution:
+                  steps:
+                    - step:
+                        identifier: httpstep
+                        type: Http
+                        spec:
+                          inputVariables:
+                            - name: testinput
+                              type: String
+                              value: <+input>
+                    - step:
+                        identifier: ShellScript_1
+                        type: ShellScript
+                        spec:
+                          source:
+                            type: Inline
+                            spec:
+                              script: <+input>
+    variables:
+      - name: input_set_name
+        type: String
+        value: <+input>
+      - name: input_set_name2
+        type: String
+        value: test
+      - name: input_set_name3
+        type: String
+        value: val3
