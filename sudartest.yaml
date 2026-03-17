@@ -9,6 +9,7 @@ pipeline:
     test: Ershad
     keying: shantelle
     test2: <+pipeline.name>
+    nipun: demo
   stages:
     - stage:
         name: approval
