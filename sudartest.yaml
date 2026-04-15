@@ -236,7 +236,8 @@ pipeline:
                     kustomize: {}
                     applicationName: <+input>
                     agentId: <+input>
-                    targetRevision: "12"
+                    targetRevision: <+input>
+                    helm: {}
                   timeout: 10m
             rollbackSteps:
               - step:
