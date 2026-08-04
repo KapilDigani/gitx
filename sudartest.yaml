@@ -233,11 +233,10 @@ pipeline:
                   name: UpdateGitOpsApp_1
                   identifier: UpdateGitOpsApp_1
                   spec:
-                    kustomize: {}
                     applicationName: <+input>
                     agentId: <+input>
-                    targetRevision: 12
-                    helm: {}
+                    targetRevision: <+input>
+                    sourceType: Directory
                   timeout: 10m
             rollbackSteps:
               - step:
