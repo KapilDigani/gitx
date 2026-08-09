@@ -1,0 +1,10 @@
+overlayInputSet:
+  name: overlay
+  tags: {}
+  identifier: overlay
+  orgIdentifier: default
+  projectIdentifier: TF_Test_Sudar
+  pipelineIdentifier: sudartest
+  inputSetReferences:
+    - empty_input_set
+    - input_set_3
