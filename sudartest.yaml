@@ -595,3 +595,9 @@ pipeline:
                             type: String
                             value: <+input>
   allowStageExecutions: true
+  variables:
+    - name: test
+      type: Secret
+      description: ""
+      required: false
+      value: <+input>
